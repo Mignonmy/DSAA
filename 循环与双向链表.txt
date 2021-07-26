@@ -1,0 +1,29 @@
+//若有尾指针rear,有一循环链表，则rear->next就是头结点,rear->next->next就是第一个结点
+
+//现在有两个链表A，B,要把它们链成一条循环链表，部分代码如下
+//指针p是一个指向结构的指针
+p=rearB->next; //记录B的头结点
+rearA->next=rearB->next->next; //让两链表尾首相连
+rearB->next=rearA->next //让第二条链表指向第一条链表的头结点
+free(p); //释放无用的第二条链表的头结点
+
+
+//下面是双向链表的定义
+typedef int elemtype;
+typedef struct link
+{
+    elemtype data;
+    struct link *prior;
+    struct link *next;
+}dllist;
+//双向链表有 p->next->prior=p=p->prior->next
+//下面是双向链表插入操作的部分代码，重点是顺序，假设结点s插入结点p和结点p->next之间
+//顺序是先搞掂s的前驱和后继，在搞掂后结点的前驱，最后解决前结点的后记
+s->prior=p;
+s->next=p->next;
+p->next->prior=s;
+p->next=s;
+
+//下面是双向链表删除操作的部分代码 p->prior  p   p->next
+p->prior->next=p->next;  //让前结点的后继直接跳过p指向p结点的下一个结点
+p->next->prior=p->prior; //同时p结点的下一个结点反向连接前结点
